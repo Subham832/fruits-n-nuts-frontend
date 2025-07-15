@@ -18,7 +18,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://ceef944d8693.ngrok-free.app/api/auth/login", form);
+      const res = await axios.post("https://b0a0bc64fa51.ngrok-free.app/api/auth/login", form);
       localStorage.setItem('token', res.data.token);
       alert('Login successful');
       navigate('/dashboard');
