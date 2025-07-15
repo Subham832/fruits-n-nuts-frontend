@@ -1,50 +1,38 @@
-// src/components/Cart.js
 import React, { useEffect, useState } from "react";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cart, setCart] = useState([]);
 
-  // Fetch cart items from localStorage
   useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(cart);
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(storedCart);
   }, []);
 
-  // Remove single item
-  const handleRemove = (id) => {
-    const updatedCart = cartItems.filter(item => item.id !== id);
-    setCartItems(updatedCart);
+  const removeFromCart = (id) => {
+    const updatedCart = cart.filter((item) => item.id !== id);
+    setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const handleClearCart = () => {
-    localStorage.removeItem("cart");
-    setCartItems([]);
-  };
-
-  const total = cartItems.reduce((acc, item) => acc + item.price, 0);
+  const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
 
   return (
     <div className="min-h-screen bg-yellow-50 p-6">
-      <h1 className="text-3xl font-bold text-center text-yellow-700 mb-6">🛒 Your Cart</h1>
+      <h1 className="text-3xl font-bold text-center text-yellow-600 mb-6">🛒 Your Cart</h1>
 
-      {cartItems.length === 0 ? (
+      {cart.length === 0 ? (
         <p className="text-center text-gray-600">Your cart is empty.</p>
       ) : (
         <>
-          <div className="grid gap-4 max-w-xl mx-auto">
-            {cartItems.map((item) => (
-              <div key={item.id} className="bg-white shadow p-4 rounded flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <img src={item.imageUrl} alt={item.name} className="w-12 h-12" />
-                  <div>
-                    <h2 className="text-lg font-semibold">{item.name}</h2>
-                    <p className="text-green-600 font-bold">₹{item.price}</p>
-                  </div>
-                </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {cart.map((product) => (
+              <div key={product.id} className="bg-white rounded-lg shadow p-4 text-center">
+                <img src={product.imageUrl} alt={product.name} className="mx-auto mb-2 w-20 h-20 object-contain" />
+                <h2 className="text-xl font-semibold">{product.name}</h2>
+                <p className="text-green-600 font-bold">₹{product.price}</p>
                 <button
-                  onClick={() => handleRemove(item.id)}
-                  className="text-red-600 hover:underline"
+                  onClick={() => removeFromCart(product.id)}
+                  className="mt-3 bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded"
                 >
                   Remove
                 </button>
@@ -52,13 +40,10 @@ const Cart = () => {
             ))}
           </div>
 
-          <div className="mt-6 text-center">
-            <p className="text-xl font-bold text-gray-700">Total: ₹{total}</p>
-            <button
-              onClick={handleClearCart}
-              className="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-            >
-              Clear Cart
+          <div className="mt-8 text-center">
+            <h2 className="text-2xl font-bold">Total: ₹{totalPrice}</h2>
+            <button className="mt-4 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
+              Place Order
             </button>
           </div>
         </>
