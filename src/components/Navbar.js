@@ -23,6 +23,7 @@ const Navbar = () => {
         ) : (
           <>
             <Link to="/dashboard" className="hover:underline">Dashboard</Link>
+            <Link to="/cart" className="hover:underline">Cart</Link>
             <button onClick={handleLogout} className="hover:underline">Logout</button>
           </>
         )}
