@@ -1,10 +1,19 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://2ea9d8d0982c.ngrok-free.app/api", // ✅ Use your live ngrok API base
+  baseURL: "https://bfcb1ebf1f6e.ngrok-free.app/api", // ✅ update this when ngrok changes
   headers: {
-    "ngrok-skip-browser-warning": "true" // ✅ Skip ngrok browser warning
+    "ngrok-skip-browser-warning": "true"
   }
+});
+
+// ✅ Add a request interceptor to automatically include token
+instance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 export default instance;
