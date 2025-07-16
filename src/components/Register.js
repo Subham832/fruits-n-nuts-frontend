@@ -15,7 +15,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://3703cbed42c4.ngrok-free.app/api/auth/register", form);
+      const res = await axios.post("https://2ea9d8d0982c.ngrok-free.app/api/auth/register", form);
       alert(res.data);
     } catch (err) {
       alert('Registration failed');
