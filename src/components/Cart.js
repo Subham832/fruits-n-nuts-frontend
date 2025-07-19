@@ -5,8 +5,16 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    let storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Ensure every item has quantity
+    storedCart = storedCart.map((item) => ({
+      ...item,
+      quantity: item.quantity || 1,
+    }));
+
     setCart(storedCart);
+    localStorage.setItem("cart", JSON.stringify(storedCart));
   }, []);
 
   const updateLocalStorage = (updatedCart) => {
@@ -35,7 +43,10 @@ const Cart = () => {
     updateLocalStorage(updatedCart);
   };
 
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
     <div className="min-h-screen bg-yellow-50 p-6">
@@ -96,6 +107,7 @@ const Cart = () => {
 
             <button
               disabled={cart.length === 0}
+              onClick={() => alert("✅ Order Placed! (Coming Soon)")}
               className={`mt-4 px-6 py-2 rounded text-white font-semibold ${
                 cart.length === 0
                   ? "bg-gray-400 cursor-not-allowed"
@@ -106,10 +118,7 @@ const Cart = () => {
             </button>
 
             <div className="mt-4">
-              <Link
-                to="/dashboard"
-                className="text-blue-600 hover:underline"
-              >
+              <Link to="/dashboard" className="text-blue-600 hover:underline">
                 ← Back to Products
               </Link>
             </div>

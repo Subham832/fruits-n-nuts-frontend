@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://61b7d3310fad.ngrok-free.app/api", // ✅ update this when ngrok changes
+  baseURL: "https://0ad4316533d4.ngrok-free.app/api", // ✅ update this when ngrok changes
   headers: {
     "ngrok-skip-browser-warning": "true"
   }
